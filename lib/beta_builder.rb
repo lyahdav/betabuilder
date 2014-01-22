@@ -117,7 +117,7 @@ module BetaBuilder
       namespace(@namespace) do
         desc "Build the beta release of the app"
         task :build => :clean do
-          xcodebuild @configuration.build_arguments, "build"
+          xcodebuild @configuration.build_arguments, @configuration.build_action || "build"
         end
         
         task :clean do
