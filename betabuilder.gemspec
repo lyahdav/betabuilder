@@ -16,6 +16,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = "1.8.11"
   s.summary = "A set of Rake tasks and utilities for managing iOS ad-hoc builds"
 
+  s.add_runtime_dependency(%q<aws-sdk>, ["~> 1.0"])
+
   if s.respond_to? :specification_version then
     s.specification_version = 3
 
