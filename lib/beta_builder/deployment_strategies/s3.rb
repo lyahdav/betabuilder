@@ -15,7 +15,7 @@ module BetaBuilder
       end
 
       def manifest_url
-        File.join(deploy_to, plist_data['CFBundleVersion'], 'manifest.plist')
+        File.join(deploy_to, 'manifest.plist')
       end
 
       def prepare
@@ -90,7 +90,7 @@ module BetaBuilder
         obj.write Pathname.new("pkg/dist/#{@configuration.app_name}.ipa")
         obj.acl = :public_read
 
-        obj = s3.buckets[@configuration.bucket].objects["#{@plist_data['CFBundleVersion']}/manifest.plist"]
+        obj = s3.buckets[@configuration.bucket].objects["manifest.plist"]
         obj.write Pathname.new("pkg/dist/manifest.plist")
         obj.acl = :public_read
 
