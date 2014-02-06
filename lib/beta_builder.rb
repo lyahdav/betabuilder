@@ -117,6 +117,10 @@ module BetaBuilder
       namespace(@namespace) do
         desc "Build the beta release of the app"
         task :build => :clean do
+          if @configuration.increment_build_number
+            plist_path = "#{@configuration.app_name}/#{@configuration.app_name}-Info.plist"
+            `buildNumber=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "#{plist_path}") && buildNumber=$(($buildNumber + 1)) && /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $buildNumber" "#{plist_path}"`
+          end
           xcodebuild @configuration.build_arguments, @configuration.build_action || "build"
         end
         
