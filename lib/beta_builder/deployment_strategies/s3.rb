@@ -91,7 +91,17 @@ module BetaBuilder
         obj.acl = :public_read
 
         obj = s3.buckets[@configuration.bucket].objects["manifest.plist"]
-        obj.write Pathname.new("pkg/dist/manifest.plist")
+        obj.write Pathname.new("pkg/dist/manifest.plist"), {
+            content_type: 'text/plain',
+            cache_control: 'public, max-age=0, no-cache',
+        }
+        obj.acl = :public_read
+
+        obj = s3.buckets[@configuration.bucket].objects["#{@plist_data['CFBundleVersion']}/manifest.plist"]
+        obj.write Pathname.new("pkg/dist/manifest.plist"), {
+            content_type: 'text/plain',
+            cache_control: 'public, max-age=0, no-cache',
+        }
         obj.acl = :public_read
 
         obj = s3.buckets[@configuration.bucket].objects[@configuration.html_file]
