@@ -120,6 +120,12 @@ module BetaBuilder
           if @configuration.increment_build_number
             plist_path = "#{@configuration.app_name}/#{@configuration.app_name}-Info.plist"
             `buildNumber=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "#{plist_path}") && buildNumber=$(($buildNumber + 1)) && /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $buildNumber" "#{plist_path}"`
+            if @configuration.watch_kit_extension_plist
+              `buildNumber=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "#{plist_path}") && /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $buildNumber" "#{@configuration.watch_kit_extension_plist}"`
+            end
+            if @configuration.watch_kit_app_plist
+              `buildNumber=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "#{plist_path}") && /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $buildNumber" "#{@configuration.watch_kit_app_plist}"`
+            end
           end
           xcodebuild @configuration.build_arguments, @configuration.build_action || "build"
         end
